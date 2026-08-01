@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>财税政策通 - 每日财税政策聚合平台</title>
+<style>
+  :root {
+    --primary: #1a56db;
+    --primary-light: #3b82f6;
+    --primary-dark: #1e40af;
+    --accent: #f59e0b;
+    --bg: #f0f4f8;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-secondary: #64748b;
+    --border: #e2e8f0;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-hover: 0 10px 25px rgba(0,0,0,0.1);
+    --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    --color-legal: #7c3aed;
+    --color-legal-bg: #f5f3ff;
+    --color-financial: #059669;
+    --color-financial-bg: #ecfdf5;
+    --color-tax: #d97706;
+    --color-tax-bg: #fffbeb;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ===== Header ===== */
+  .header {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: white;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    touch-action: manipulation;
+  }
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+  .header-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    opacity: 0.9;
+    flex-wrap: wrap;
+  }
+  .header-info .badge {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+  .update-time {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .update-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ===== Main Container ===== */
+  .main { max-width: 1280px; margin: 0 auto; padding: 20px 24px; }
+
+  /* ===== Stats Bar ===== */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stat-card .label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-card .value { font-size: 24px; font-weight: 700; }
+  .stat-card .sub { font-size: 12px; color: var(--text-secondary); }
+  .stat-card.legal .value { color: var(--color-legal); }
+  .stat-card.financial .value { color: var(--color-financial); }
+  .stat-card.tax .value { color: var(--color-tax); }
+  .stat-card.total .value { color: var(--primary); }
+
+  /* ===== Search & Filter ===== */
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .search-box {
+    flex: 1;
+    min-width: 240px;
+    position: relative;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    background: var(--card-bg);
+    transition: var(--transition);
+    outline: none;
+    color: var(--text);
+  }
+  .search-box input:focus { border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+  .search-box .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 16px;
+  }
+  .filter-select {
+    padding: 10px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    background: var(--card-bg);
+    color: var(--text);
+    cursor: pointer;
+    outline: none;
+    transition: var(--transition);
+    min-width: 130px;
+  }
+  .filter-select:focus { border-color: var(--primary-light); }
+
+  /* ===== Main Category Tabs ===== */
+  .main-category-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .main-category-tab {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
+    background: var(--card-bg);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .main-category-tab:hover { transform: translateY(-1px); box-shadow: var(--shadow-hover); }
+  .main-category-tab .tab-label { font-size: 16px; font-weight: 700; display: block; }
+  .main-category-tab .tab-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+  .main-category-tab .tab-count {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 4px;
+  }
+  .main-category-tab.active-legal {
+    background: var(--color-legal-bg);
+    border-color: var(--color-legal);
+  }
+  .main-category-tab.active-legal .tab-count { color: var(--color-legal); }
+  .main-category-tab.active-financial {
+    background: var(--color-financial-bg);
+    border-color: var(--color-financial);
+  }
+  .main-category-tab.active-financial .tab-count { color: var(--color-financial); }
+  .main-category-tab.active-tax {
+    background: var(--color-tax-bg);
+    border-color: var(--color-tax);
+  }
+  .main-category-tab.active-tax .tab-count { color: var(--color-tax); }
+  .main-category-tab.active-all {
+    background: #eff6ff;
+    border-color: var(--primary);
+  }
+  .main-category-tab.active-all .tab-count { color: var(--primary); }
+
+  /* ===== Sub Category Tabs ===== */
+  .sub-category-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .sub-category-tabs::-webkit-scrollbar { display: none; }
+  .sub-category-tab {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 2px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+    user-select: none;
+  }
+  .sub-category-tab:hover { border-color: var(--primary-light); color: var(--primary); }
+  .sub-category-tab.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+  .sub-category-tab .count {
+    display: inline-block;
+    background: rgba(0,0,0,0.08);
+    border-radius: 10px;
+    padding: 0 6px;
+    font-size: 11px;
+    margin-left: 4px;
+  }
+  .sub-category-tab.active .count { background: rgba(255,255,255,0.25); }
+
+  /* ===== Policy Cards ===== */
+  .policy-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .policy-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: var(--transition);
+    border-left: 4px solid var(--primary);
+    position: relative;
+  }
+  .policy-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+  .policy-card.border-legal { border-left-color: var(--color-legal); }
+  .policy-card.border-financial { border-left-color: var(--color-financial); }
+  .policy-card.border-tax { border-left-color: var(--color-tax); }
+  .policy-card .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .policy-card .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .policy-card .card-title:hover { color: var(--primary); }
+  .policy-card .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+  .policy-card .card-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .policy-card .card-meta .doc-number {
+    color: var(--primary);
+    font-weight: 500;
+  }
+  .policy-card .card-keypoints {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    background: var(--bg);
+    border-radius: 8px;
+  }
+  .policy-card .card-keypoints .kp-label {
+    font-weight: 600;
+    color: var(--text);
+    margin-right: 4px;
+  }
+  .policy-card .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .policy-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .tag-category { background: #eff6ff; color: var(--primary); }
+  .tag-main-legal { background: var(--color-legal-bg); color: var(--color-legal); }
+  .tag-main-financial { background: var(--color-financial-bg); color: var(--color-financial); }
+  .tag-main-tax { background: var(--color-tax-bg); color: var(--color-tax); }
+  .tag-type { background: #fef3c7; color: #92400e; }
+  .tag-status { background: #d1fae5; color: #065f46; }
+  .tag-status.draft { background: #fef3c7; color: #92400e; }
+  .tag-source { background: #f1f5f9; color: var(--text-secondary); }
+  .card-source-link {
+    color: var(--primary-light);
+    text-decoration: none;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .card-source-link:hover { text-decoration: underline; }
+
+  /* ===== Detail Modal ===== */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+  }
+  .modal-overlay.open { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .modal {
+    background: var(--card-bg);
+    border-radius: 16px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    animation: slideUp 0.3s ease;
+  }
+  .modal-header {
+    padding: 24px 28px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    background: var(--card-bg);
+    z-index: 1;
+  }
+  .modal-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg);
+    color: var(--text-secondary);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    flex-shrink: 0;
+  }
+  .modal-close:hover { background: var(--border); color: var(--text); }
+  .modal-body { padding: 20px 28px 28px; }
+  .modal-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .modal-info-item {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+  .modal-info-item .label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .modal-info-item .value { font-size: 15px; font-weight: 500; }
+  .modal-section { margin-bottom: 20px; }
+  .modal-section h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .modal-section .content {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 16px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .modal-section .content p { margin-bottom: 8px; }
+  .modal-section .content p:last-child { margin-bottom: 0; }
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .modal-actions .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+  }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 2px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--primary-light); color: var(--primary); }
+
+  /* ===== Empty State ===== */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+  }
+  .empty-state .icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
+  .empty-state h3 { font-size: 18px; margin-bottom: 8px; color: var(--text); }
+  .empty-state p { font-size: 14px; }
+
+  /* ===== Loading ===== */
+  .loading-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    gap: 12px;
+    color: var(--text-secondary);
+  }
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ===== Toast ===== */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--text);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    z-index: 300;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ===== Footer ===== */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+  .footer a { color: var(--primary); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 768px) {
+    .header-inner { padding: 12px 16px; }
+    .logo { font-size: 18px; }
+    .logo-icon { width: 34px; height: 34px; font-size: 18px; }
+    .main { padding: 16px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .stat-card { padding: 10px 12px; }
+    .stat-card .value { font-size: 20px; }
+    .policy-card { padding: 14px; }
+    .policy-card .card-title { font-size: 14px; }
+    .policy-grid { gap: 8px; }
+    .modal { max-height: 90vh; }
+    .modal-header { padding: 16px 20px 12px; }
+    .modal-header h2 { font-size: 17px; }
+    .modal-body { padding: 16px 20px 20px; }
+    .modal-info-grid { grid-template-columns: 1fr 1fr; }
+    .main-category-tabs { gap: 8px; }
+    .main-category-tab { padding: 10px 10px; }
+    .main-category-tab .tab-label { font-size: 13px; }
+    .main-category-tab .tab-count { font-size: 16px; }
+    .filter-select { min-width: 100px; }
+  }
+  @media (max-width: 480px) {
+    .header-info .badge { display: none; }
+    .stats-bar { grid-template-columns: 1fr 1fr; }
+    .modal-info-grid { grid-template-columns: 1fr; }
+    .toolbar { flex-direction: column; }
+    .search-box { min-width: 100%; }
+    .filter-select { width: 100%; }
+    .main-category-tabs { flex-direction: column; }
+    .main-category-tab { width: 100%; }
+  }
+
+  @media (max-width: 360px) {
+    .stats-bar { grid-template-columns: 1fr; }
+    .stat-card { padding: 8px 10px; }
+    .stat-card .value { font-size: 16px; }
+    .main-category-tab { padding: 8px 8px; }
+    .main-category-tab .tab-label { font-size: 11px; }
+    .policy-card { padding: 10px; }
+    .policy-card .card-title { font-size: 13px; }
+  }
+
+  /* ===== Print ===== */
+  @media print {
+    .header { position: static; }
+    .policy-card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+    .modal-overlay { position: static; background: none; padding: 0; }
+    .modal { box-shadow: none; max-height: none; }
+    .modal-close, .modal-actions { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">📋</div>
+      <span>财税政策通</span>
+    </div>
+    <div class="header-info">
+      <span class="badge">数据来源：国家税务总局 / 财政部 / 国务院</span>
+      <span class="update-time">
+        <span class="update-dot"></span>
+        <span id="lastUpdateTime">加载中...</span>
+      </span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Main ===== -->
+<div class="main">
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card total">
+      <span class="label">政策总数</span>
+      <span class="value" id="totalCount">0</span>
+      <span class="sub">累计收录</span>
+    </div>
+    <div class="stat-card legal">
+      <span class="label">法律类</span>
+      <span class="value" id="legalCount">0</span>
+      <span class="sub">法规·标准·合规</span>
+    </div>
+    <div class="stat-card financial">
+      <span class="label">财务类</span>
+      <span class="value" id="financialCount">0</span>
+      <span class="sub">补贴·财务处理</span>
+    </div>
+    <div class="stat-card tax">
+      <span class="label">税务类</span>
+      <span class="value" id="taxCount">0</span>
+      <span class="sub">税收·优惠·征管</span>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="搜索政策标题、文号、关键词..." oninput="filterPolicies()">
+    </div>
+    <select class="filter-select" id="typeFilter" onchange="filterPolicies()">
+      <option value="">全部类型</option>
+      <option value="法律">法律</option>
+      <option value="行政法规">行政法规</option>
+      <option value="部门规章">部门规章</option>
+      <option value="规范性文件">规范性文件</option>
+      <option value="财税文件">财税文件</option>
+      <option value="工作通知">工作通知</option>
+      <option value="政策解读">政策解读</option>
+    </select>
+    <select class="filter-select" id="statusFilter" onchange="filterPolicies()">
+      <option value="">全部状态</option>
+      <option value="有效">有效</option>
+      <option value="部分有效">部分有效</option>
+      <option value="全文废止">全文废止</option>
+    </select>
+  </div>
+
+  <!-- Main Category Tabs -->
+  <div class="main-category-tabs" id="mainCategoryTabs"></div>
+
+  <!-- Sub Category Tabs -->
+  <div class="sub-category-tabs" id="subCategoryTabs" style="display:none;"></div>
+
+  <!-- Policy List -->
+  <div id="policyList" class="policy-grid"></div>
+
+  <!-- Footer -->
+  <div class="footer">
+    数据来源：<a href="https://fgk.chinatax.gov.cn" target="_blank">国家税务总局政策法规库</a> ·
+    <a href="https://www.mof.gov.cn" target="_blank">财政部</a> ·
+    <a href="https://www.gov.cn/zhengce/" target="_blank">国务院政策文件库</a><br>
+    更新频率：每日 08:00（北京时间）自动更新 &nbsp;·&nbsp; 数据仅供参考，请以官方原文为准
+  </div>
+</div>
+
+<!-- ===== Toast ===== -->
+<div class="toast" id="toast"></div>
+
+<!-- ===== Detail Modal ===== -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h2 id="modalTitle"></h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-info-grid" id="modalInfoGrid"></div>
+      <div class="modal-section">
+        <h3>📄 政策摘要</h3>
+        <div class="content" id="modalSummary">暂无摘要信息</div>
+      </div>
+      <div class="modal-section">
+        <h3>🔑 关键性文字</h3>
+        <div class="content" id="modalKeyPoints">暂无提取信息</div>
+      </div>
+      <div class="modal-section">
+        <h3>📌 备注</h3>
+        <div class="content" id="modalRemarks">暂无备注信息</div>
+      </div>
+      <div class="modal-actions">
+        <a class="btn btn-primary" id="modalSourceLink" target="_blank" rel="noopener">🔗 查看官方原文</a>
+        <button class="btn btn-outline" onclick="closeModal()">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== Data =====
+const DATA_URL = 'data/policies.json';
+const MAIN_CATEGORIES = ['全部', '法律', '财务', '税务'];
+const MAIN_CATEGORY_LABELS = {
+  '法律': { label: '法律类', sub: '法规·标准·合规', icon: '⚖️', color: '#7c3aed' },
+  '财务': { label: '财务类', sub: '补贴·财务处理', icon: '💰', color: '#059669' },
+  '税务': { label: '税务类', sub: '税收·优惠·征管', icon: '📊', color: '#d97706' }
+};
+
+let allPolicies = [];
+let currentMainCategory = '全部';
+let currentSubCategory = '全部';
+let currentData = [];
+
+// ===== Toast =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== Load Data =====
+async function loadData() {
+  const listEl = document.getElementById('policyList');
+  listEl.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><span>正在加载最新政策数据...</span></div>';
+
+  try {
+    const resp = await fetch(DATA_URL + '?t=' + Date.now());
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    allPolicies = data.policies || [];
+    renderAll();
+    if (data.lastUpdate) {
+      document.getElementById('lastUpdateTime').textContent = '更新于 ' + data.lastUpdate;
+    }
+  } catch (e) {
+    console.error('加载数据失败:', e);
+    listEl.innerHTML = `<div class="empty-state">
+      <div class="icon">📡</div>
+      <h3>数据加载失败</h3>
+      <p>无法连接到数据源，请检查网络后刷新页面。</p>
+      <p style="margin-top:8px;font-size:12px;color:#999;">${e.message}</p>
+    </div>`;
+  }
+}
+
+// ===== Render All =====
+function renderAll() {
+  renderStats();
+  renderMainCategoryTabs();
+  renderSubCategoryTabs();
+  filterPolicies();
+}
+
+// ===== Stats =====
+function renderStats() {
+  document.getElementById('totalCount').textContent = allPolicies.length;
+  document.getElementById('legalCount').textContent = allPolicies.filter(p => p.mainCategory === '法律').length;
+  document.getElementById('financialCount').textContent = allPolicies.filter(p => p.mainCategory === '财务').length;
+  document.getElementById('taxCount').textContent = allPolicies.filter(p => p.mainCategory === '税务').length;
+}
+
+// ===== Main Category Tabs =====
+function renderMainCategoryTabs() {
+  const container = document.getElementById('mainCategoryTabs');
+  const counts = {};
+  allPolicies.forEach(p => {
+    const mc = p.mainCategory || '税务';
+    counts[mc] = (counts[mc] || 0) + 1;
+  });
+
+  container.innerHTML = MAIN_CATEGORIES.map(cat => {
+    const isAll = cat === '全部';
+    const count = isAll ? allPolicies.length : (counts[cat] || 0);
+    const active = cat === currentMainCategory;
+    let activeClass = '';
+    if (active) {
+      if (isAll) activeClass = 'active-all';
+      else activeClass = 'active-' + cat.toLowerCase();
+    }
+    const info = isAll
+      ? { label: '全部分类', sub: '所有政策汇总', icon: '📋' }
+      : MAIN_CATEGORY_LABELS[cat];
+    return `<div class="main-category-tab ${activeClass}" onclick="switchMainCategory('${cat}')">
+      <span class="tab-label">${info.icon} ${info.label}</span>
+      <span class="tab-sub">${info.sub}</span>
+      <span class="tab-count">${count}</span>
+    </div>`;
+  }).join('');
+}
+
+// ===== Switch Main Category =====
+function switchMainCategory(cat) {
+  if (cat === currentMainCategory) return;
+  currentMainCategory = cat;
+  currentSubCategory = '全部';
+  renderMainCategoryTabs();
+  renderSubCategoryTabs();
+  filterPolicies();
+}
+
+// ===== Sub Category Tabs =====
+function renderSubCategoryTabs() {
+  const container = document.getElementById('subCategoryTabs');
+  if (currentMainCategory === '全部') {
+    container.style.display = 'none';
+    return;
+  }
+
+  // Get policies in current main category
+  const filtered = allPolicies.filter(p => p.mainCategory === currentMainCategory);
+  const counts = {};
+  filtered.forEach(p => {
+    const cat = p.category || '其他';
+    counts[cat] = (counts[cat] || 0) + 1;
+  });
+
+  const cats = Object.keys(counts).sort();
+  const allCount = filtered.length;
+  container.style.display = 'flex';
+
+  container.innerHTML = `<div class="sub-category-tab ${currentSubCategory === '全部' ? 'active' : ''}" onclick="switchSubCategory('全部')">全部 <span class="count">${allCount}</span></div>`
+    + cats.map(cat => {
+      const active = cat === currentSubCategory ? 'active' : '';
+      return `<div class="sub-category-tab ${active}" onclick="switchSubCategory('${cat}')">${cat} <span class="count">${counts[cat]}</span></div>`;
+    }).join('');
+}
+
+// ===== Switch Sub Category =====
+function switchSubCategory(cat) {
+  currentSubCategory = cat;
+  renderSubCategoryTabs();
+  filterPolicies();
+}
+
+// ===== Filter & Render =====
+function filterPolicies() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+  const typeVal = document.getElementById('typeFilter').value;
+  const statusVal = document.getElementById('statusFilter').value;
+
+  let filtered = allPolicies;
+
+  if (currentMainCategory !== '全部') {
+    filtered = filtered.filter(p => p.mainCategory === currentMainCategory);
+  }
+  if (currentSubCategory !== '全部') {
+    filtered = filtered.filter(p => p.category === currentSubCategory);
+  }
+  if (typeVal) {
+    filtered = filtered.filter(p => p.policyType === typeVal);
+  }
+  if (statusVal) {
+    filtered = filtered.filter(p => p.status === statusVal);
+  }
+  if (query) {
+    filtered = filtered.filter(p =>
+      (p.title && p.title.toLowerCase().includes(query)) ||
+      (p.docNumber && p.docNumber.toLowerCase().includes(query)) ||
+      (p.summary && p.summary.toLowerCase().includes(query)) ||
+      (p.authority && p.authority.toLowerCase().includes(query)) ||
+      (p.keyPoints && p.keyPoints.toLowerCase().includes(query))
+    );
+  }
+
+  // Sort: within same mainCategory, newest first
+  filtered.sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate));
+
+  currentData = filtered;
+  renderPolicyCards(filtered);
+}
+
+// ===== Render Cards =====
+function renderPolicyCards(policies) {
+  const container = document.getElementById('policyList');
+  if (!policies.length) {
+    container.innerHTML = `<div class="empty-state">
+      <div class="icon">📭</div>
+      <h3>暂无匹配的政策</h3>
+      <p>试试调整筛选条件或搜索其他关键词</p>
+    </div>`;
+    return;
+  }
+
+  container.innerHTML = policies.map((p, idx) => {
+    const dateStr = formatDate(p.publishDate);
+    const statusClass = p.status === '有效' ? '' : 'draft';
+    const mc = p.mainCategory || '税务';
+    const borderClass = 'border-' + mc.toLowerCase();
+    const mainTagClass = 'tag-main-' + mc.toLowerCase();
+    const mainIcon = MAIN_CATEGORY_LABELS[mc] ? MAIN_CATEGORY_LABELS[mc].icon : '📋';
+
+    return `<div class="policy-card ${borderClass}" onclick="openDetail(${idx})">
+      <div class="card-top">
+        <div class="card-title">${escapeHtml(p.title)}</div>
+      </div>
+      <div class="card-meta">
+        ${p.docNumber ? `<span class="doc-number">📄 ${escapeHtml(p.docNumber)}</span>` : ''}
+        <span>🏛 ${escapeHtml(p.authority)}</span>
+        <span>📅 ${dateStr}</span>
+      </div>
+      ${p.keyPoints ? `<div class="card-keypoints"><span class="kp-label">🔑 关键点：</span>${escapeHtml(p.keyPoints)}</div>` : ''}
+      <div class="card-footer">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <span class="policy-tag ${mainTagClass}">${mainIcon} ${escapeHtml(mc)}</span>
+          <span class="policy-tag tag-category">${escapeHtml(p.category)}</span>
+          <span class="policy-tag tag-type">${escapeHtml(p.policyType)}</span>
+          <span class="policy-tag tag-status ${statusClass}">${escapeHtml(p.status)}</span>
+          <span class="policy-tag tag-source">${escapeHtml(p.sourceName)}</span>
+        </div>
+        <a class="card-source-link" href="${escapeHtml(p.sourceUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+          🔗 查看原文
+        </a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== Detail Modal =====
+function openDetail(idx) {
+  const p = currentData[idx];
+  if (!p) return;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalSourceLink').href = p.sourceUrl;
+
+  const mc = p.mainCategory || '税务';
+  const mcInfo = MAIN_CATEGORY_LABELS[mc] || { label: mc, icon: '📋' };
+
+  const infoGrid = document.getElementById('modalInfoGrid');
+  infoGrid.innerHTML = `
+    <div class="modal-info-item"><div class="label">文号</div><div class="value">${p.docNumber || '—'}</div></div>
+    <div class="modal-info-item"><div class="label">发文机关</div><div class="value">${escapeHtml(p.authority)}</div></div>
+    <div class="modal-info-item"><div class="label">发布日期</div><div class="value">${formatDate(p.publishDate)}</div></div>
+    <div class="modal-info-item"><div class="label">大类归属</div><div class="value">${mcInfo.icon} ${escapeHtml(mcInfo.label)}</div></div>
+    <div class="modal-info-item"><div class="label">政策分类</div><div class="value">${escapeHtml(p.category)}</div></div>
+    <div class="modal-info-item"><div class="label">政策类型</div><div class="value">${escapeHtml(p.policyType)}</div></div>
+    <div class="modal-info-item"><div class="label">有效性</div><div class="value">${escapeHtml(p.status)}</div></div>
+    <div class="modal-info-item"><div class="label">数据来源</div><div class="value">${escapeHtml(p.sourceName)}</div></div>
+  `;
+
+  document.getElementById('modalSummary').innerHTML = p.summary
+    ? `<p>${escapeHtml(p.summary)}</p>`
+    : '<p>暂无摘要信息，请查看官方原文。</p>';
+
+  document.getElementById('modalKeyPoints').innerHTML = p.keyPoints
+    ? `<p>${escapeHtml(p.keyPoints)}</p>`
+    : '<p>暂未提取关键性文字。</p>';
+
+  document.getElementById('modalRemarks').innerHTML = p.remarks
+    ? `<p>${escapeHtml(p.remarks)}</p>`
+    : '<p>暂无备注信息。</p>';
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ESC key to close modal
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ===== Helpers =====
+function formatDate(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}年${m}月${day}日`;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ===== Init =====
+loadData();
+</script>
+</body>
+</html>
